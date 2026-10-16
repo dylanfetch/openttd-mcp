@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Reload a save and report its independently observed OpenTTD date."""
 
 from __future__ import annotations

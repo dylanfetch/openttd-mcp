@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Replay a final save and report factual road-network telemetry.
 
 The instrument makes no verdict, ranking, or diagnosis. Queue fields are an

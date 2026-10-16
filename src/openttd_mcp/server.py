@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """OpenTTD native-tool/MCP bridge (the served experiment label is wired per run
 via --experiment).
 

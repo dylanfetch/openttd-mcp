@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Validate and render structured OpenTTD map observation artifacts.
 
 This module deliberately contains no OpenTTD control logic. It consumes the

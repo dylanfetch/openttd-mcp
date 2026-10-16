@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Referee-only MCP server for inspecting one completed OpenTTD save."""
 
 from __future__ import annotations

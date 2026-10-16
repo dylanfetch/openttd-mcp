@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Independently verify that a saved McpBridge company owns a >=2-route bus network.
 
 This is the network generalisation of ``openttd_mcp.verify.bus_route``. The single-route

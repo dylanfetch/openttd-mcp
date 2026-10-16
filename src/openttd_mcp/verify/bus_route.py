@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Load a save and verify the saved McpBridge company owns an executing bus route."""
 
 from __future__ import annotations

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Independently verify that a saved McpBridge company owns a >=2-route freight network.
 
 This is the freight sibling of ``openttd_mcp.verify.bus_network``. ``bus_network`` validates passenger-bus
