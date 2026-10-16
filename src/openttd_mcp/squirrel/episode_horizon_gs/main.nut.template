@@ -1,0 +1,33 @@
+// Episode game-time horizon referee for human baseline sessions.
+//
+// Staged by the playtest launcher with __TARGET_YEAR__ substituted; the game
+// pauses on 1 Jan of that year and re-pauses if the player unpauses, so a
+// human session ends at the same exact calendar boundary as a model episode
+// ended by its game-time limit. One game day is 74 ticks; the loop
+// sleeps a day at a time until the last two days, then checks every tick so
+// the pause lands on the boundary day.
+
+class EpisodeHorizon extends GSController {
+    function Start() {
+        local target = GSDate.GetDate(__TARGET_YEAR__, 1, 1);
+        while (GSDate.GetCurrentDate() < target) {
+            local remaining_days = target - GSDate.GetCurrentDate();
+            this.Sleep(remaining_days > 2 ? 74 : 1);
+        }
+        GSGame.Pause();
+        GSLog.Info("EPISODE_HORIZON_REACHED target_year=__TARGET_YEAR__ date=" + GSDate.GetCurrentDate() + " is_paused=" + GSGame.IsPaused());
+        while (true) {
+            if (!GSGame.IsPaused()) {
+                GSGame.Pause();
+                GSLog.Info("EPISODE_HORIZON_REPAUSED date=" + GSDate.GetCurrentDate());
+            }
+            this.Sleep(5);
+        }
+    }
+
+    // The referee holds no state worth persisting: on load it re-derives
+    // everything from the current date, so a session resumed from a save is
+    // still held to the same boundary.
+    function Save() { return {}; }
+    function Load(version, data) { }
+}

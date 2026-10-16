@@ -1,0 +1,34 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run pytest -q
+      - run: uv run ruff check .
+      - run: uv run ty check
+      - run: uv run python tools/generate_tool_catalog.py --check
+      - run: uv build
+      - name: Verify wheel contents and isolated installation
+        run: |
+          uv venv /tmp/openttd-wheel-check
+          uv pip install --python /tmp/openttd-wheel-check/bin/python dist/*.whl
+          cd /tmp
+          /tmp/openttd-wheel-check/bin/openttd-mcp play --help
+          /tmp/openttd-wheel-check/bin/python -c 'from importlib.resources import files; p = files("openttd_mcp") / "squirrel"; assert (p / "mcp_bridge" / "main.nut").is_file(); assert (p / "episode_horizon_gs" / "main.nut.template").is_file()'

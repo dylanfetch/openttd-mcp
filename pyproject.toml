@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openttd-mcp"
+version = "0.2.2"
+description = "MCP tools for playing OpenTTD with an AI agent"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["mcp>=1.28.1,<2"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Games/Entertainment :: Simulation",
+]
+
+[project.optional-dependencies]
+vision = ["Pillow"]
+
+[project.scripts]
+openttd-mcp = "openttd_mcp.server:main"
+openttd-mcp-inspector = "openttd_mcp.inspector:main"
+openttd-playtest = "openttd_mcp.launcher:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+openttd_mcp = ["squirrel/**/*.nut", "squirrel/**/*.nut.template"]
+
+[dependency-groups]
+dev = ["pytest", "pytest-cov>=7", "ruff>=0.16.0", "ty>=0.0.65", "Pillow"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src", "tools"]
+
+[tool.coverage.run]
+source = ["src/openttd_mcp", "tools"]
+patch = ["subprocess"]
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
+
+[tool.ruff.lint]
+extend-select = ["RUF100"]
+ignore = ["TRY004"]
+
+[tool.ty.src]
+include = ["src"]
